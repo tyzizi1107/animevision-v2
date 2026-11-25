@@ -1,0 +1,12 @@
+import { MongoClient } from "mongodb";
+const uri = "mongodb+srv://tyz:wp1HOdlEyTZLY4zw@animesapi.u2cdjuh.mongodb.net/?retryWrites=true&w=majority&appName=AnimesAPI";
+const c = await MongoClient.connect(uri);
+const db = c.db("animevision");
+const col = db.collection("catalogue");
+const rows = await col.find({ numero: { $gt: 0 } }, { projection: { numero: 1, tmdbId: 1, id: 1 } }).toArray();
+console.log("lignes:", rows.length);
+const bad = rows.filter((r) => !Number.isFinite(Number(r.numero)) || Number(r.numero) <= 0);
+console.log("numéros invalides:", bad.length);
+const noTmdb = rows.filter((r) => !(Number.isFinite(Number(r.tmdbId)) && Number(r.tmdbId) > 0));
+console.log("sans tmdb:", noTmdb.length, "| avec id:", noTmdb.filter((r) => r.id).length);
+await c.close();

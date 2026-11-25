@@ -1,0 +1,619 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* ---------------------------------------------------------------------
+     Palette « encre et violet ».
+     Fond presque noir à reflet violet, surfaces en dégradé de gris froids,
+     un seul accent violet réservé aux actions. Le rose sert de repère
+     secondaire (notes, nouveautés), jamais de fond de bouton.
+     --------------------------------------------------------------------- */
+  --color-bg: #090511;
+  --color-bg-soft: #0e0c16;
+  --color-panel: #14111f;
+  --color-panel-2: #1b1729;
+  --color-line: #ffffff14;
+  --color-ink: #f6f4fb;
+  --color-muted: #a79db7;
+  --color-brand: #41009a;
+  --color-brand-2: #a463ff;
+  --color-accent: #e879c7;
+
+  --font-sans: "Inter", "Segoe UI Variable Text", ui-sans-serif, system-ui, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+
+  /* Une seule échelle d'espacement, jamais improvisée. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --radius-card: 16px;
+  --radius-pill: 999px;
+
+  --animate-fade-up: av-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: av-fade-in 0.5s ease both;
+  --animate-slow-spin: av-spin 18s linear infinite;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #faf8fd;
+  --color-bg-soft: #f2eefb;
+  --color-panel: #ffffff;
+  --color-panel-2: #f0eafb;
+  --color-line: #2a1a4a1f;
+  --color-ink: #1d1630;
+  --color-muted: #6b6280;
+}
+
+html[data-text-size="large"] {
+  font-size: 112.5%;
+}
+
+html[data-contrast="high"] {
+  --color-muted: #c9c5d1;
+  --color-line: #ffffff38;
+}
+
+html[data-theme="light"][data-contrast="high"] {
+  --color-muted: #514a5d;
+  --color-line: #21152f45;
+}
+
+
+
+
+html[data-contrast="high"] :focus-visible {
+  outline-width: 3px;
+  outline-offset: 3px;
+}
+
+html[data-theme="light"] body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* Surfaces sombres les plus utilisées dans l’interface. */
+html[data-theme="light"] [class~="bg-[#050506]"],
+html[data-theme="light"] [class~="bg-[#08090b]"],
+html[data-theme="light"] [class~="bg-[#09080c]"],
+html[data-theme="light"] [class~="bg-[#0a090d]"],
+html[data-theme="light"] [class~="bg-[#0b0910]"],
+html[data-theme="light"] [class~="bg-[#0b0a10]"],
+html[data-theme="light"] [class~="bg-[#0c0a11]"],
+html[data-theme="light"] [class~="bg-[#0c0b10]"],
+html[data-theme="light"] [class~="bg-[#0d0b12]"],
+html[data-theme="light"] [class~="bg-[#100d18]"],
+html[data-theme="light"] [class~="bg-[#111018]"],
+html[data-theme="light"] [class~="bg-[#111114]"],
+html[data-theme="light"] [class~="bg-[#121018]"],
+html[data-theme="light"] [class~="bg-[#15111d]"],
+html[data-theme="light"] [class~="bg-[#15141c]"],
+html[data-theme="light"] [class~="bg-[#191722]"],
+html[data-theme="light"] [class~="bg-[#1b1b23]"],
+html[data-theme="light"] [class~="bg-black/15"]:not(.absolute),
+html[data-theme="light"] [class~="bg-black/20"]:not(.absolute),
+html[data-theme="light"] [class~="bg-black/25"]:not(.absolute) {
+  background-color: #fff !important;
+}
+
+html[data-theme="light"] [class*="text-white"] {
+  color: #211a29;
+}
+
+html[data-theme="light"] [class*="bg-brand"][class*="text-white"],
+html[data-theme="light"] [class*="bg-brand"] [class*="text-white"],
+html[data-theme="light"] button[class*="bg-gradient"][class*="text-white"] {
+  color: #fff;
+}
+
+html[data-theme="light"] [class*="border-white/"] {
+  border-color: #21152f20;
+}
+
+@keyframes av-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes av-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes av-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@layer base {
+  * {
+    scrollbar-color: #ffffff26 transparent;
+    scrollbar-width: thin;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  input,
+  textarea,
+  select,
+  [contenteditable="true"],
+  [data-selectable="true"] {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-brand) 70%, transparent);
+    color: #0a0a0a;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ffffff1f;
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #ffffff30;
+  }
+
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Socle visuel du site (hors lecteur et calendrier) : surfaces, focus, titres.
+   Le lecteur garde ses propres classes (player-*), le calendrier les siennes.
+--------------------------------------------------------------------------- */
+@utility surface {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-panel-2) 70%, transparent) 0%, var(--color-panel) 100%);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+
+@utility surface-hover {
+  transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  &:hover {
+    border-color: color-mix(in srgb, var(--color-brand) 55%, transparent);
+    box-shadow: 0 24px 48px -32px rgba(0, 0, 0, 0.9);
+  }
+}
+
+@utility glow-brand {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-brand) 35%, transparent),
+    0 18px 44px -24px color-mix(in srgb, var(--color-brand) 70%, transparent);
+}
+
+@utility eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility page-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  select.av-select {
+    color-scheme: dark;
+  }
+
+  select.av-select option {
+    background-color: #17131f;
+    color: #f5f5f4;
+  }
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--color-brand) 0%, var(--color-brand-2) 100%);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility panel {
+  background-color: color-mix(in srgb, var(--color-panel) 82%, transparent);
+  border: 1px solid var(--color-line);
+}
+
+/* Sliders du lecteur vidéo */
+.av-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  transition: height 0.15s ease;
+}
+
+.av-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.av-range::-moz-range-thumb {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  opacity: 0;
+}
+
+.av-range:hover {
+  height: 6px;
+}
+
+.av-range:hover::-webkit-slider-thumb,
+.av-range:focus-visible::-webkit-slider-thumb {
+  opacity: 1;
+}
+
+.av-range:hover::-moz-range-thumb,
+.av-range:focus-visible::-moz-range-thumb {
+  opacity: 1;
+}
+
+/* Dégradés utilitaires */
+.hero-fade {
+  background: linear-gradient(
+    180deg,
+    rgba(6, 7, 13, 0.1) 0%,
+    rgba(6, 7, 13, 0.55) 55%,
+    var(--color-bg) 100%
+  );
+}
+
+.edge-fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent);
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Lecteur vidéo maison : barres de progression/volume (piste remplie + pouce).
+--------------------------------------------------------------------------- */
+.player-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #7c3aed var(--played, 0%), rgba(255, 255, 255, 0.28) var(--played, 0%));
+}
+.player-range::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+.player-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 9999px;
+  background: #7c3aed;
+}
+.player-range::-webkit-slider-thumb {
+  appearance: none;
+  height: 13px;
+  width: 13px;
+  margin-top: -3.5px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  transition: transform 120ms ease;
+}
+.player-range:hover::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+.player-range::-moz-range-thumb {
+  height: 13px;
+  width: 13px;
+  border: 0;
+  border-radius: 9999px;
+  background: #fff;
+}
+.player-range:focus-visible {
+  outline: 2px solid #a855f7;
+  outline-offset: 3px;
+}
+
+/* Barre de progression pleine largeur du lecteur plein écran : trait fin,
+   pouce coloré, zone de clic confortable. */
+.player-range--big {
+  height: 24px;
+}
+.player-range--big::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #ef4444 var(--played, 0%), rgba(255, 255, 255, 0.42) var(--played, 0%));
+}
+.player-range--big::-moz-range-track {
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.42);
+}
+.player-range--big::-moz-range-progress {
+  height: 4px;
+  border-radius: 9999px;
+  background: #ef4444;
+}
+.player-range--big::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  margin-top: -6px;
+  border-radius: 9999px;
+  background: #ef4444;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.35);
+  transition: transform 120ms ease;
+}
+.player-range--big:hover::-webkit-slider-thumb {
+  transform: scale(1.18);
+}
+.player-range--big::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border: 0;
+  border-radius: 9999px;
+  background: #ef4444;
+}
+
+/* ---------------------------------------------------------------------------
+   Lecteur : jauge de volume — mêmes couleurs que la barre de progression
+   (piste #D9D9D9, remplissage #41009A), à l'horizontale dans son panneau.
+--------------------------------------------------------------------------- */
+.player-volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+}
+.player-volume::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #41009a var(--level, 100%), #d9d9d9 var(--level, 100%));
+}
+.player-volume::-moz-range-track { height: 6px; border-radius: 9999px; background: #d9d9d9; }
+.player-volume::-moz-range-progress { height: 6px; border-radius: 9999px; background: #41009a; }
+.player-volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  margin-top: -4px;
+  border-radius: 9999px;
+  background: #41009a;
+  border: 0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.45);
+}
+.player-volume::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border: 0;
+  border-radius: 9999px;
+  background: #41009a;
+}
+.player-volume:focus-visible { outline: 2px solid #a978f5; outline-offset: 2px; }
+
+/* ---------------------------------------------------------------------------
+   Lecteur : barre de progression (remplissage violet de la marque, piste
+   blanche translucide) et menu « Source » (panneau sombre arrondi).
+--------------------------------------------------------------------------- */
+.player-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+/* Figma : piste 8 px #D9D9D9, jouée #41009A, pastille 20 px #41009A. */
+.player-progress::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #41009a var(--played, 0%), #d9d9d9 var(--played, 0%));
+}
+.player-progress::-moz-range-track { height: 8px; border-radius: 9999px; background: #d9d9d9; }
+.player-progress::-moz-range-progress { height: 8px; border-radius: 9999px; background: #41009a; }
+.player-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  margin-top: -6px;
+  border-radius: 9999px;
+  background: #41009a;
+  border: 0;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+.player-progress::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border: 0;
+  border-radius: 9999px;
+  background: #41009a;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+.player-progress:focus-visible {
+  outline: 2px solid #a978f5;
+  outline-offset: 4px;
+}
+
+/* Curseur de lecture « Celix » : piste blanche, remplissage violet, pouce rond. */
+.player-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+}
+.player-slider::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #7c3aed var(--played, 0%), rgba(255, 255, 255, 0.35) var(--played, 0%));
+}
+.player-slider::-moz-range-track {
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.35);
+}
+.player-slider::-moz-range-progress {
+  height: 5px;
+  border-radius: 9999px;
+  background: #7c3aed;
+}
+.player-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  margin-top: -4.5px;
+  border-radius: 9999px;
+  background: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+}
+.player-slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border: 0;
+  border-radius: 9999px;
+  background: #7c3aed;
+}
+.player-slider--thin::-webkit-slider-runnable-track {
+  height: 3px;
+}
+.player-slider--thin::-webkit-slider-thumb {
+  height: 10px;
+  width: 10px;
+  margin-top: -3.5px;
+}
+.player-slider:focus-visible {
+  outline: 2px solid #a978f5;
+  outline-offset: 4px;
+}
+
+@keyframes av-synopsis {
+  0%, 15% { transform: translateY(0); }
+  85%, 100% { transform: translateY(var(--shift)); }
+}
+
+/* Écran d'arrivée : caché tant que le script d'amorçage ne l'a pas demandé,
+   pour ne jamais voir le site clignoter derrière lui. */
+html:not([data-splash]) .av-splash { display: none; }
+
+/* Sous-titres du lecteur.
+   Les VTT de Vidzy enveloppent chaque réplique dans <b><i>, et Chrome rend
+   alors la couleur et l'italique de ces balises : le texte sortait gris et
+   penché. On force donc blanc, droit et gras sur la cue ET sur ses balises.
+   Mesures : `background` sur une cue fait disparaître l'affichage (Chrome
+   ignore alors aussi la couleur), `font-size` n'a AUCUN effet (la taille de
+   cue n'est pas modifiable par CSS), et un `text-shadow` large rend le texte
+   flou. La lisibilité repose donc sur un contour net de 1 px : `text-shadow`
+   à décalage NUL (décalé, il produit 4 copies floues) + contour webkit. */
+/* `!important` : sans lui, la règle par défaut du navigateur pour la cue gagne
+   et le texte restait gris, fin et flou (mesuré : color rgb(246,244,251),
+   font-weight 400, aucune ombre). */
+video::cue, video::cue(*), video::cue(b), video::cue(i) {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-stroke: 2px rgba(0, 0, 0, 0.95) !important;
+  paint-order: stroke fill !important;
+  color: #ffffff !important;
+  font-family: inherit !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  font-size: 1.6rem !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.01em !important;
+  text-shadow: 0 0 2px #000, 0 0 3px #000, 0 0 4px #000 !important;
+}
+
+
